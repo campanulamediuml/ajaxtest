@@ -1,0 +1,3 @@
+函数get_picture_url(url)
+其中输入的参数url为产品asin主页
+返回结果为一个list，每一个元素为一个图片url
