@@ -8,11 +8,13 @@ from multiprocessing.dummy import Pool as ThreadPool
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import user_agents
 import random
+debug = 1
+
 
 def get_picture_url(url):
-    dcap = dict(DesiredCapabilities.PHANTOMJS)
-    dcap["PhantomJS.page.settings.userAgent"] = (random.choice(user_agents.user_agent_list))#加上随机文件头，调用浏览器访问
-    driver = webdriver.PhantomJS(desired_capabilities=dcap)#这里使用PhantomJS浏览
+    dcap = dict(DesiredCapabilities.CHROME)
+    dcap["Chrome.page.settings.userAgent"] = (random.choice(user_agents.user_agent_list))#加上随机文件头，调用浏览器访问
+    driver = webdriver.Chrome(desired_capabilities=dcap)#这里使用PhantomJS浏览
     driver.implicitly_wait(10)
     driver.get(url)
     #调用无界面浏览器访问
@@ -22,6 +24,7 @@ def get_picture_url(url):
         try:
             pic = driver.find_element_by_xpath('//*[@id="altImages"]/ul/li['+str(i)+']')  # 鼠标移动到此元素
             count = count + 1
+
             pic_list.append(pic)
         except:
             break
@@ -46,6 +49,10 @@ def get_picture_url(url):
     driver.quit()
     return result_list
 
+if debug:
+    result_list = get_picture_url('https://www.amazon.com/dp/B000TYSVIA')
+    for i in result_list:
+        print i
 
 
 
